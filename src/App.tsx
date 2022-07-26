@@ -7,8 +7,16 @@ interface DogPhotos {
 
 function App() {
   const [dog, setDog] = useState<DogPhotos>();
+  const [prevDogs, addToDogHistory] = useState<(DogPhotos[])>([]);
 
   const handleGetDog = () => {
+    // console.log(prevDogs)
+    
+    if (typeof dog !==  'undefined'){
+      console.log(dog.message)
+      addToDogHistory((prevDogs) => [...prevDogs, dog]); 
+    }
+       
     fetch("https://dog.ceo/api/breeds/image/random")
       .then((response) => response.json())
       .then((jsonBody : DogPhotos) => setDog(jsonBody));
@@ -21,6 +29,7 @@ function App() {
           <img src={dog.message} alt='dog'/>
         <hr />
         <button onClick={handleGetDog}>Get another dog</button>
+        <p>History : {prevDogs}</p>
       </div>
     );
   } else {return (
