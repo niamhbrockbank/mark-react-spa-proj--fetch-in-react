@@ -7,14 +7,15 @@ interface DogPhotos {
 
 function App() {
   const [dog, setDog] = useState<DogPhotos>();
-  const [prevDogs, addToDogHistory] = useState<(DogPhotos[])>([]);
+  const [prevDogs, addToDogHistory] = useState<(JSX.Element[])>([]);
 
   const handleGetDog = () => {
     // console.log(prevDogs)
     
     if (typeof dog !==  'undefined'){
       console.log(dog.message)
-      addToDogHistory((prevDogs) => [...prevDogs, dog]); 
+      const dogElement = <img src={dog.message} alt='dog'/>
+      addToDogHistory((prevDogs) => [...prevDogs, dogElement]); 
     }
        
     fetch("https://dog.ceo/api/breeds/image/random")
@@ -29,7 +30,7 @@ function App() {
           <img src={dog.message} alt='dog'/>
         <hr />
         <button onClick={handleGetDog}>Get another dog</button>
-        <p>History : {prevDogs}</p>
+        <p>History : <ul>{prevDogs}</ul></p>
       </div>
     );
   } else {return (
